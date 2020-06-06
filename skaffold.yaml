@@ -1,0 +1,19 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infrastructure/k8s/*
+build:
+  local:
+    push: false
+    useDockerCLI: true
+  artifacts:
+    - image: dereegz/auth
+      context: .
+      docker:
+        dockerfile: ./infrastructure/docker/Dockerfile.auth
+      sync:
+        manual:
+          - src: './packages/auth/src/**/*.ts'
+            dest: .
