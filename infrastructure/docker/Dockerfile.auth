@@ -9,6 +9,4 @@ RUN yarn install
 
 COPY packages/auth ./packages/auth
 
-WORKDIR /app/packages/auth
-
-CMD ["yarn", "start"]
+CMD ["yarn", "workspace", "@ticketing/auth", "start"]

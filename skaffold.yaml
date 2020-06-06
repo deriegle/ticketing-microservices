@@ -15,5 +15,5 @@ build:
         dockerfile: ./infrastructure/docker/Dockerfile.auth
       sync:
         manual:
-          - src: './packages/auth/src/**/*.ts'
+          - src: 'packages/auth/src/**/*.ts'
             dest: .
