@@ -1,0 +1,14 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY package.json .
+COPY packages/auth/package.json ./packages/auth/package.json
+
+RUN yarn install
+
+COPY packages/auth ./packages/auth
+
+WORKDIR /app/packages/auth
+
+CMD ["yarn", "start"]
