@@ -4,13 +4,13 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node-dev --poll ./src/index.ts",
-    "test": "jest --watch --no-cache"
+    "test": "jest --watchAll --no-cache"
   },
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
-      "./src/setup-tests.ts"
+      "./src/test/setup.ts"
     ]
   },
   "dependencies": {
