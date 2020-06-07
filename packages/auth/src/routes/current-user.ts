@@ -13,7 +13,7 @@ router.get(
     }
 
     try {
-      const payload =  jwt.verify(req.session.jwt, process.env.JWT_KEY!);
+      const payload =  jwt.verify(req.session.jwt, process.env.JWT_KEY);
 
       return res.status(200).json({
         currentUser: payload,
