@@ -1,4 +1,5 @@
 import { model, Schema, Model, Document } from 'mongoose';
+import { PasswordService } from '@ticketing/auth/src/services/password-service';
 
 interface UserAttributes {
   email: string;
@@ -21,6 +22,15 @@ const userSchema = new Schema({
     required: true,
   }
 })
+
+userSchema.pre('save', async function(done) {
+  if (this.isModified('password')) {
+    const hashed = await PasswordService.hash(this.get('password'));
+    this.set('password', hashed);
+  }
+
+  done();
+});
 
 userSchema.statics.build = (attrs: UserAttributes) => new User(attrs);
 

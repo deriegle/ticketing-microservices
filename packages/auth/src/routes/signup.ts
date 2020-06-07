@@ -2,6 +2,7 @@ import {Router, Request, Response} from 'express';
 import { body, validationResult } from 'express-validator';
 import { User } from '@ticketing/auth/src/models/user';
 import { RequestValidationError } from '../errors/request-validation-error';
+import { BadRequestError } from '../errors/bad-request-error';
 
 const router = Router();
 
@@ -22,8 +23,7 @@ router.post('/api/users/signup', [
   });
 
   if (existingUser) {
-    console.log('Email in use');
-    return res.json({});
+    throw new BadRequestError('Email or password invalid');
   }
 
   const user = await User.create({ email, password });
