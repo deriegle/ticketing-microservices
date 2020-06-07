@@ -5,7 +5,13 @@ export class DatabaseConnectionError extends BaseError {
   public readonly reason = 'Failed to connect to the database';
   public readonly statusCode = 500;
 
-  serializeErrors(): ErrorResponse {
+  constructor() {
+    super();
+
+    Object.setPrototypeOf(this, DatabaseConnectionError.prototype);
+  }
+
+  public serializeErrors(): ErrorResponse {
     return {
       errors: [
         {

@@ -1,6 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { RequestValidationError } from '../errors/request-validation-error';
-import { DatabaseConnectionError } from '../errors/database-connection-error';
 import { BaseError } from "../errors/base-error";
 
 export interface ErrorResponse {
@@ -17,6 +15,7 @@ export const errorHandler = (
   next: NextFunction
 ): Response<ErrorResponse> => {
   if (err instanceof BaseError) {
+    console.log(err);
     return res.status(err.statusCode).json(err.serializeErrors());
   }
 
