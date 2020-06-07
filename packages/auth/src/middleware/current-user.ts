@@ -1,19 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from 'jsonwebtoken';
-
-interface CurrentUserPayload {
-  id: string;
-  password: string;
-  iat: number;
-}
-
-declare global {
-  namespace Express {
-    interface Request {
-      currentUser?: CurrentUserPayload;
-    }
-  }
-}
+import { CurrentUserPayload } from "@ticketing/auth/src/types/express";
 
 export const currentUser = async (
   req: Request,
