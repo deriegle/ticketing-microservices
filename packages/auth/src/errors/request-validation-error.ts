@@ -3,6 +3,8 @@ import { ErrorResponse } from '../middleware/error-handler';
 import { BaseError } from './base-error';
 
 export class RequestValidationError extends Error implements BaseError {
+  public readonly statusCode = 400;
+
   constructor(public errors: ValidationError[]) {
     super();
 

@@ -3,6 +3,7 @@ import { BaseError } from "./base-error";
 
 export class DatabaseConnectionError extends Error implements BaseError {
   public readonly reason = 'Failed to connect to the database';
+  public readonly statusCode = 500;
 
   constructor() {
     super();
