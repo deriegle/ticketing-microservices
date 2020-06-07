@@ -1,6 +1,5 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import { app } from '@ticketing/auth/src/app';
 
 let mongo: MongoMemoryServer;
 
@@ -12,6 +11,8 @@ beforeAll(async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
+
+  process.env.JWT_KEY = '1234';
 });
 
 beforeEach(async () => {

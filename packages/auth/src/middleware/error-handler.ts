@@ -14,8 +14,6 @@ export const errorHandler = (
   res: Response<ErrorResponse>,
   next: NextFunction
 ): Response<ErrorResponse> => {
-  console.log(err);
-
   if (err instanceof BaseError) {
     return res.status(err.statusCode).json(err.serializeErrors());
   }
