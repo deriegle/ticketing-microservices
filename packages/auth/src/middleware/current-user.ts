@@ -15,7 +15,7 @@ export const currentUser = async (
     const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY) as CurrentUserPayload;
 
     req.currentUser = payload;
-  } catch (error) {
-    return next(error);
-  }
+  } catch (error) {}
+
+  next();
 };
