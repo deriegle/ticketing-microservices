@@ -1,47 +1,46 @@
 import {Router, Request, Response} from 'express';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import { User } from '@ticketing/auth/src/models/user';
-import { RequestValidationError } from '../errors/request-validation-error';
-import { BadRequestError } from '../errors/bad-request-error';
+import { BadRequestError } from '@ticketing/auth/src/errors/bad-request-error';
 import jwt from 'jsonwebtoken';
+import { validateRequest } from '@ticketing/auth/src/middleware/validate-request';
 
 const router = Router();
 
-router.post('/api/users/signup', [
-  body('email').isEmail().withMessage('Email must be valid'),
-  body('password').trim().isLength({min: 6}).withMessage('Password must be at least 6 characters'),
-], async (req: Request, res: Response) => {
-  const errors = validationResult(req);
+router.post(
+  '/api/users/signup',
+  [
+    body('email').isEmail().withMessage('Email must be valid'),
+    body('password').trim().isLength({min: 6}).withMessage('Password must be at least 6 characters'),
+  ],
+  validateRequest,
+  async (req: Request, res: Response) => {
+    const { email, password } = req.body;
 
-  if (!errors.isEmpty()) {
-    throw new RequestValidationError(errors.array());
-  }
+    const existingUser = await User.findOne({
+      email,
+    });
 
-  const { email, password } = req.body;
+    if (existingUser) {
+      throw new BadRequestError('Email or password invalid');
+    }
 
-  const existingUser = await User.findOne({
-    email,
-  });
+    const user = await User.create({ email, password });
 
-  if (existingUser) {
-    throw new BadRequestError('Email or password invalid');
-  }
+    const userJwt = jwt.sign({
+      userId: user._id,
+      email: user.email,
+    }, process.env.JWT_KEY!);
 
-  const user = await User.create({ email, password });
+    req.session = {
+      jwt: userJwt,
+    } as any;
 
-  const userJwt = jwt.sign({
-    userId: user._id,
-    email: user.email,
-  }, process.env.JWT_KEY!);
-
-  req.session = {
-    jwt: userJwt,
-  } as any;
-
-  return res.status(201).json({
-    user,
-    token: userJwt,
-  })
-});
+    return res.status(201).json({
+      user,
+      token: userJwt,
+    })
+  },
+);
 
 export const signUpRouter = router;
