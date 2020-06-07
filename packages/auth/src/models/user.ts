@@ -1,4 +1,4 @@
-import { model, Schema, Model, Document } from 'mongoose';
+import { model, Schema, Model, Document, DocumentToObjectOptions } from 'mongoose';
 import { PasswordService } from '@ticketing/auth/src/services/password-service';
 
 interface UserAttributes {
@@ -20,6 +20,15 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
+  }
+}, {
+  toJSON: {
+    versionKey: false,
+    transform(doc, ret) {
+      ret.id = ret._id;
+      delete ret.password;
+      delete ret._id;
+    },
   }
 })
 

@@ -32,17 +32,14 @@ router.post('/api/users/signup', [
   const userJwt = jwt.sign({
     userId: user._id,
     email: user.email,
-  }, 'asdf');
+  }, process.env.JWT_KEY!);
 
   req.session = {
     jwt: userJwt,
   } as any;
 
   return res.status(201).json({
-    user: {
-      id: user._id,
-      email: user.email,
-    },
+    user,
     token: userJwt,
   })
 });

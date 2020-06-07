@@ -11,6 +11,7 @@ import { signOutRouter } from "@ticketing/auth/src/routes/signout";
 import { signUpRouter } from "@ticketing/auth/src/routes/signup";
 import { errorHandler } from "@ticketing/auth/src/middleware/error-handler";
 import { NotFoundError } from "@ticketing/auth/src/errors/not-found-error";
+import { EnvvarService } from "./services/envvar-service";
 
 const app = express();
 
@@ -33,6 +34,10 @@ app.all("*", async () => {
 app.use(errorHandler);
 
 const init = async () => {
+  EnvvarService.validateEnvvars([
+    'JWT_KEY',
+  ]);
+
   try {
     await mongoose.connect("mongodb://auth-mongo-srv:27017/auth", {
       useNewUrlParser: true,
