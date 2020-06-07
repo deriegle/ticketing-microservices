@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator';
 import { User } from '@ticketing/auth/src/models/user';
 import { RequestValidationError } from '../errors/request-validation-error';
 import { BadRequestError } from '../errors/bad-request-error';
+import jwt from 'jsonwebtoken';
 
 const router = Router();
 
@@ -28,8 +29,21 @@ router.post('/api/users/signup', [
 
   const user = await User.create({ email, password });
 
+  const userJwt = jwt.sign({
+    userId: user._id,
+    email: user.email,
+  }, 'asdf');
+
+  req.session = {
+    jwt: userJwt,
+  } as any;
+
   return res.status(201).json({
-    user,
+    user: {
+      id: user._id,
+      email: user.email,
+    },
+    token: userJwt,
   })
 });
 

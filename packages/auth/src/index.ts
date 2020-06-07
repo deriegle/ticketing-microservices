@@ -3,6 +3,7 @@ import "express-async-errors";
 import { json } from "body-parser";
 import mongoose from "mongoose";
 import cookieSession from 'cookie-session';
+import jwt from 'jsonwebtoken';
 
 import { currentUserRouter } from "@ticketing/auth/src/routes/current-user";
 import { signInRouter } from "@ticketing/auth/src/routes/signin";
