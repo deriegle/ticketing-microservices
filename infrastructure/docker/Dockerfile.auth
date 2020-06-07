@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json .
 COPY packages/auth/package.json ./packages/auth/package.json
 
-RUN yarn install
+RUN yarn install --only=prod
 
 COPY packages/auth ./packages/auth
 
