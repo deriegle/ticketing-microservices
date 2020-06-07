@@ -1,6 +1,12 @@
 import { ErrorResponse } from "../middleware/error-handler";
 
-export interface BaseError {
-  statusCode: number;
-  serializeError: () => ErrorResponse,
+export abstract class BaseError extends Error {
+  abstract statusCode: number;
+
+  constructor() {
+    super();
+    Object.setPrototypeOf(this, BaseError.prototype);
+  }
+
+  abstract serializeErrors(): ErrorResponse;
 }
