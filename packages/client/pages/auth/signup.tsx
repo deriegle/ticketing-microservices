@@ -26,12 +26,6 @@ export default () => {
     });
   };
 
-  useEffect(() => {
-    if (data?.token || data?.user) {
-      console.log(data);
-    }
-  }, [data]);
-
   return (
     <form onSubmit={onSubmit}>
       <h1>Sign up</h1>
