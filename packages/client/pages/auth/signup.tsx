@@ -1,21 +1,29 @@
 import { useState, FormEvent } from "react";
+import { ErrorMessage } from "@ticketing/auth/src/middleware/error-handler";
 
 export default () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<ErrorMessage[]>([]);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    fetch("https://ticketing.dev/api/users/signup", {
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    try {
+      const response = await fetch("https://ticketing.dev/api/users/signup", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }).then((res) => res.json());
 
-    console.log(email, password);
+      console.log(response);
+    } catch (err) {
+      console.log({
+        err,
+      });
+    }
   };
 
   return (
@@ -40,6 +48,17 @@ export default () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
+
+      {!!errors.length && (
+        <div className="alert alert-danger">
+          <h4>Something went wrong...</h4>
+          <ul className="my-0">
+            {errors.map((err) => (
+              <li key={err.message}>{err.message}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <button className="btn btn-primary">Sign up</button>
     </form>

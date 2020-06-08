@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { BaseError } from "../errors/base-error";
 
+export interface ErrorMessage {
+  message: string;
+  field?: string;
+}
+
 export interface ErrorResponse {
-  errors: Array<{
-    message: string;
-    field?: string;
-  }>
+  errors: ErrorMessage[];
 }
 
 export const errorHandler = (
@@ -21,8 +23,8 @@ export const errorHandler = (
   return res.status(400).json({
     errors: [
       {
-        message: 'Something went wrong.',
-      }
-    ]
+        message: "Something went wrong.",
+      },
+    ],
   });
-}
+};
