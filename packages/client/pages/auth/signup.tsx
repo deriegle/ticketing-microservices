@@ -1,5 +1,6 @@
 import { useState, FormEvent, useEffect } from "react";
 import { useRequest } from "@ticketing/client/hooks/use-request";
+import Router from "next/router";
 
 interface RequestData {
   user: {
@@ -12,10 +13,11 @@ interface RequestData {
 export default () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signup, data, errors] = useRequest<RequestData>(
-    "https://ticketing.dev/api/users/signup",
-    "POST"
-  );
+  const [signup, data, errors] = useRequest<RequestData>({
+    url: "https://ticketing.dev/api/users/signup",
+    method: "POST",
+    onSuccess: () => Router.push("/"),
+  });
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -4,10 +4,23 @@ import {
   ErrorResponse,
 } from "@ticketing/auth/src/middleware/error-handler";
 
-export function useRequest<T>(
-  url: string,
-  method: "GET" | "POST"
-): [(body?: object) => Promise<T>, T | null | undefined, ErrorMessage[]] {
+interface UseRequest<T> {
+  url: string;
+  method: "GET" | "POST";
+  onSuccess?: (data: T | undefined) => void;
+}
+
+type UseRequestReturn<T> = [
+  (body?: object) => Promise<T>,
+  T | null | undefined,
+  ErrorMessage[]
+];
+
+export function useRequest<T>({
+  url,
+  method = "GET",
+  onSuccess,
+}: UseRequest<T>): UseRequestReturn<T> {
   const [errors, setErrors] = useState<ErrorMessage[]>([]);
   const [data, setData] = useState<T>(null);
 
@@ -28,12 +41,15 @@ export function useRequest<T>(
         const data: T | ErrorResponse = await response.json();
 
         if (isErrorResponse(data)) {
-          setErrors(data.errors);
+          throw data.errors;
         } else {
           setData(data);
+          onSuccess && onSuccess(data);
           return data;
         }
-      } catch (err) {}
+      } catch (err) {
+        setErrors(err);
+      }
     },
     [url, method]
   );
