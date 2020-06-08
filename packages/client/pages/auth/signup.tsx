@@ -1,30 +1,36 @@
-import { useState, FormEvent } from "react";
-import { ErrorMessage } from "@ticketing/auth/src/middleware/error-handler";
+import { useState, FormEvent, useEffect } from "react";
+import { useRequest } from "@ticketing/client/hooks/use-request";
+
+interface RequestData {
+  user: {
+    id: string;
+    email: string;
+  };
+  token: string;
+}
 
 export default () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<ErrorMessage[]>([]);
+  const [signup, data, errors] = useRequest<RequestData>(
+    "https://ticketing.dev/api/users/signup",
+    "POST"
+  );
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      const response = await fetch("https://ticketing.dev/api/users/signup", {
-        method: "POST",
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      }).then((res) => res.json());
-
-      console.log(response);
-    } catch (err) {
-      console.log({
-        err,
-      });
-    }
+    await signup({
+      email,
+      password,
+    });
   };
+
+  useEffect(() => {
+    if (data?.token || data?.user) {
+      console.log(data);
+    }
+  }, [data]);
 
   return (
     <form onSubmit={onSubmit}>
