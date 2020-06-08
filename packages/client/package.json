@@ -5,10 +5,8 @@
   "scripts": {
     "dev": "next"
   },
-  "jest": {
-    "preset": "ts-jest"
-  },
   "dependencies": {
+    "@types/react": "^16.9.35",
     "next": "^9.4.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
