@@ -1,6 +1,6 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { CurrentUserPayload } from "../types/environment";
+import { CurrentUserPayload } from "@ticketing/backend-core/src/types/express";
 import jwt from "jsonwebtoken";
 
 let mongo: MongoMemoryServer;
