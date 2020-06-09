@@ -30,11 +30,11 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-global.signin = (email: string = "test@test.com"): string[] => {
+global.signin = (id: string = "1234"): string[] => {
   const userPayload: CurrentUserPayload = {
     iat: new Date().getTime(),
-    id: "1234",
-    email,
+    id,
+    email: "test@test.com",
   };
 
   const token = jwt.sign(userPayload, process.env.JWT_KEY);
