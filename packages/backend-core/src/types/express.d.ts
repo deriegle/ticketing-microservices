@@ -1,4 +1,3 @@
-
 interface CurrentUserPayload {
   id: string;
   password: string;
@@ -13,4 +12,4 @@ declare global {
   }
 }
 
-export { CurrentUserPayload }
+export { CurrentUserPayload };

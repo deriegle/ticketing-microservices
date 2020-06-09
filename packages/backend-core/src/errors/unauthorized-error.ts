@@ -1,21 +1,21 @@
 import { BaseError } from "./base-error";
 import { ErrorResponse } from "../middleware/error-handler";
 
-export class NotFoundError extends BaseError {
-  statusCode: number = 404;
+export class UnauthorizedError extends BaseError {
+  statusCode: number = 401;
 
   constructor() {
     super();
 
-    Object.setPrototypeOf(this, NotFoundError.prototype);
+    Object.setPrototypeOf(this, UnauthorizedError.prototype);
   }
 
   serializeErrors(): ErrorResponse {
     return {
       errors: [
         {
-          message: 'Not found',
-        }
+          message: "Not Authorized",
+        },
       ],
     };
   }

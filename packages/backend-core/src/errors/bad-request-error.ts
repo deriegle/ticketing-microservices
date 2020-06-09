@@ -15,8 +15,8 @@ export class BadRequestError extends BaseError {
       errors: [
         {
           message: this.reason,
-        }
-      ]
-    }
+        },
+      ],
+    };
   }
 }
