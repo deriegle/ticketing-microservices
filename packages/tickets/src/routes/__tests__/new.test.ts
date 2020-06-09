@@ -3,7 +3,7 @@ import { app } from "@ticketing/tickets/src/app";
 
 describe("POST /api/tickets", () => {
   it("responds with a 201 when given correct data", async () => {
-    const cookie = await global.signin();
+    const cookie = global.signin();
     const response = await request(app)
       .post("/api/tickets")
       .set("Cookie", cookie)
@@ -32,7 +32,58 @@ describe("POST /api/tickets", () => {
       .expect(401);
   });
 
-  it("returns an error if invalid title is provided", async () => {});
+  it("returns an error if invalid title is provided", async () => {
+    const cookie = global.signin();
+    await request(app)
+      .post("/api/tickets")
+      .set("Cookie", cookie)
+      .send({
+        title: "",
+        price: "23.54",
+      })
+      .expect(400, {
+        errors: [
+          {
+            message: "Title is required",
+            field: "title",
+          },
+        ],
+      });
+  });
 
-  it("returns an error if invalid price is provided", async () => {});
+  it("returns an error if invalid price is provided", async () => {
+    const cookie = global.signin();
+
+    await request(app)
+      .post("/api/tickets")
+      .set("Cookie", cookie)
+      .send({
+        title: "Dermot Kennedy",
+        price: null,
+      })
+      .expect(400, {
+        errors: [
+          {
+            message: "Price must be greater than 0",
+            field: "price",
+          },
+        ],
+      });
+
+    await request(app)
+      .post("/api/tickets")
+      .set("Cookie", cookie)
+      .send({
+        title: "Dermot Kennedy",
+        price: -10.0,
+      })
+      .expect(400, {
+        errors: [
+          {
+            message: "Price must be greater than 0",
+            field: "price",
+          },
+        ],
+      });
+  });
 });
