@@ -20,25 +20,4 @@ const LandingPage: NextPage<Props> = ({ currentUser }) => {
   );
 };
 
-LandingPage.getInitialProps = async (
-  context
-): Promise<{ currentUser?: CurrentUserData }> => {
-  try {
-    const data: {
-      currentUser: {
-        userId: string;
-        email: string;
-        iat: number;
-      };
-    } = await buildClient(context).get("/api/users/currentuser");
-
-    console.log({ data });
-
-    return data;
-  } catch (err) {
-    console.log("error fetching data", err);
-    return {};
-  }
-};
-
 export default LandingPage;
