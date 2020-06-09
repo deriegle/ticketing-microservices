@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { CurrentUserPayload } from "@ticketing/auth/src/types/express";
+import { CurrentUserPayload } from "@ticketing/backend-core/src/types/express";
 
 export const currentUser = (
   req: Request,

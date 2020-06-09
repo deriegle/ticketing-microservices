@@ -1,8 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
-import { validationResult } from 'express-validator';
-import { RequestValidationError } from '@ticketing/auth/src/errors/request-validation-error';
+import { Request, Response, NextFunction } from "express";
+import { validationResult } from "express-validator";
+import { RequestValidationError } from "@ticketing/backend-core/src/errors/request-validation-error";
 
-export const validateRequest = (req: Request, res: Response, next: NextFunction) => {
+export const validateRequest = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -10,4 +14,4 @@ export const validateRequest = (req: Request, res: Response, next: NextFunction)
   }
 
   next();
-}
+};
