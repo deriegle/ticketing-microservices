@@ -1,21 +1,26 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import { CurrentUserPayload } from "@ticketing/auth/src/types/express";
 
-export const currentUser = async (
+export const currentUser = (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   if (!req.session?.jwt) {
     return next();
   }
 
   try {
-    const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY) as CurrentUserPayload;
+    const payload = jwt.verify(
+      req.session.jwt,
+      process.env.JWT_KEY
+    ) as CurrentUserPayload;
 
     req.currentUser = payload;
-  } catch (error) {}
-
-  next();
+  } catch (error) {
+    console.log("error with user", error);
+  } finally {
+    next();
+  }
 };

@@ -13,8 +13,8 @@ interface RequestData {
 export default () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signup, data, errors] = useRequest<RequestData>({
-    url: "https://ticketing.dev/api/users/signup",
+  const [signin, data, errors] = useRequest<RequestData>({
+    url: "https://ticketing.dev/api/users/signin",
     method: "POST",
     onSuccess: () => Router.push("/"),
   });
@@ -22,7 +22,7 @@ export default () => {
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await signup({
+    await signin({
       email,
       password,
     });
@@ -30,7 +30,7 @@ export default () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <h1>Sign up</h1>
+      <h1>Sign in</h1>
       <div className="form-group">
         <label>Email Address</label>
         <input
@@ -62,7 +62,7 @@ export default () => {
         </div>
       )}
 
-      <button className="btn btn-primary">Sign up</button>
+      <button className="btn btn-primary">Sign in</button>
     </form>
   );
 };

@@ -10,7 +10,7 @@ import { signUpRouter } from "@ticketing/auth/src/routes/signup";
 import { errorHandler } from "@ticketing/auth/src/middleware/error-handler";
 import { NotFoundError } from "@ticketing/auth/src/errors/not-found-error";
 
-export const app = express();
+const app = express();
 
 app.set("trust proxy", true);
 app.use(json());
@@ -26,8 +26,16 @@ app.use(signInRouter);
 app.use(signOutRouter);
 app.use(signUpRouter);
 
-app.all("*", async () => {
+app.all("*", async (req) => {
+  console.log({
+    url: req.url,
+    currentUser: req.currentUser,
+    cookie: req.headers.cookies,
+  });
+
   throw new NotFoundError();
 });
 
 app.use(errorHandler);
+
+export { app };

@@ -23,5 +23,5 @@ build:
         dockerfile: ./infrastructure/docker/Dockerfile.client
       sync:
         manual:
-          - src: "packages/client/**/*.ts"
+          - src: "packages/client/**/*.tsx"
             dest: .
