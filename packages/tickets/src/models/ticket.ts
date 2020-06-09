@@ -3,6 +3,7 @@ import { model, Schema, Model, Document } from "mongoose";
 interface TicketAttributes {
   title: string;
   price: number;
+  userId: string;
 }
 
 type TicketDocument = Document & TicketAttributes;
@@ -19,6 +20,10 @@ const ticketSchema = new Schema(
     },
     price: {
       type: Number,
+      required: true,
+    },
+    userId: {
+      type: String,
       required: true,
     },
   },

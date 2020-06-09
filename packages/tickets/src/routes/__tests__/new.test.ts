@@ -1,23 +1,31 @@
 import request from "supertest";
 import { app } from "@ticketing/tickets/src/app";
+import { Ticket } from "../../models/ticket";
 
 describe("POST /api/tickets", () => {
   it("responds with a 201 when given correct data", async () => {
+    let tickets = await Ticket.find({});
+    expect(tickets.length).toBe(0);
+
     const cookie = global.signin();
     const response = await request(app)
       .post("/api/tickets")
       .set("Cookie", cookie)
       .send({
         title: "Dermot Kennedy",
-        price: "23.54",
+        price: 23.54,
       })
       .expect(201);
 
+    tickets = await Ticket.find({});
+
+    expect(tickets.length).toBe(1);
     expect(response.body).toEqual({
       ticket: {
         id: expect.any(String),
         title: "Dermot Kennedy",
-        price: "23.54",
+        price: 23.54,
+        userId: expect.any(String),
       },
     });
   });
@@ -27,7 +35,7 @@ describe("POST /api/tickets", () => {
       .post("/api/tickets")
       .send({
         title: "Dermot Kennedy",
-        price: "23.54",
+        price: 23.54,
       })
       .expect(401);
   });
@@ -39,7 +47,7 @@ describe("POST /api/tickets", () => {
       .set("Cookie", cookie)
       .send({
         title: "",
-        price: "23.54",
+        price: 23.54,
       })
       .expect(400, {
         errors: [
