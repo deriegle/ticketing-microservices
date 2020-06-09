@@ -20,7 +20,7 @@ export const currentUser = (
     req.currentUser = payload;
   } catch (error) {
     console.log("error with user", error);
-  } finally {
-    next();
   }
+
+  next();
 };

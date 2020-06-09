@@ -4,6 +4,7 @@ import { BadRequestError, validateRequest } from "@ticketing/backend-core";
 import { User } from "../models/user";
 import { PasswordService } from "../services/password-service";
 import jwt from "jsonwebtoken";
+import { CurrentUserPayload } from "@ticketing/backend-core/src/types/express";
 
 const router = Router();
 
@@ -32,7 +33,7 @@ router.post(
       {
         userId: existingUser._id,
         email: existingUser.email,
-      },
+      } as Pick<CurrentUserPayload, "userId" | "email">,
       process.env.JWT_KEY
     );
 

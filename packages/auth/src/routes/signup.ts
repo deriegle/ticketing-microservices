@@ -3,6 +3,7 @@ import { body } from "express-validator";
 import { User } from "@ticketing/auth/src/models/user";
 import { BadRequestError, validateRequest } from "@ticketing/backend-core";
 import jwt from "jsonwebtoken";
+import { CurrentUserPayload } from "@ticketing/backend-core/src/types/express";
 
 const router = Router();
 
@@ -33,7 +34,7 @@ router.post(
       {
         userId: user._id,
         email: user.email,
-      },
+      } as Pick<CurrentUserPayload, "userId" | "email">,
       process.env.JWT_KEY
     );
 

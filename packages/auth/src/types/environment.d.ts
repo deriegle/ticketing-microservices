@@ -1,5 +1,5 @@
 interface CurrentUserPayload {
-  id: string;
+  userId: string;
   email: string;
   iat: number;
 }
