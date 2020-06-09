@@ -25,3 +25,11 @@ build:
         manual:
           - src: "packages/client/**/*.tsx"
             dest: .
+    - image: dereegz/tickets
+      context: .
+      docker:
+        dockerfile: ./infrastructure/docker/Dockerfile.tickets
+      sync:
+        manual:
+          - src: "packages/tickets/**/*.tsx"
+            dest: .
