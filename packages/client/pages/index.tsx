@@ -1,6 +1,5 @@
 import React from "react";
 import { NextPage } from "next";
-import buildClient from "../api/build-client";
 
 interface CurrentUserData {
   userId: string;

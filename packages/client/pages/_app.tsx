@@ -1,27 +1,23 @@
 import "bootstrap/dist/css/bootstrap.css";
 import { AppProps, AppContext } from "next/app";
 import buildClient from "../api/build-client";
-import { Router } from "next/router";
+import { Header } from "../components/header";
 
-interface CurrentUserData {
+export interface CurrentUserData {
   userId: string;
   email: string;
   iat: number;
 }
 
 interface Props extends AppProps {
-  currentUser: {
-    id: string;
-    email: string;
-    iat: number;
-  };
+  currentUser: CurrentUserData;
 }
 
 const AppComponent = ({ Component, pageProps, currentUser }: Props) => {
   return (
     <div>
-      <h1>Header! {currentUser.email}</h1>
-      <Component {...pageProps} />
+      <Header currentUser={currentUser} />
+      <Component currentUser={currentUser} {...pageProps} />
     </div>
   );
 };
