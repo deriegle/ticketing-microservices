@@ -1,0 +1,25 @@
+interface CurrentUserPayload {
+  id: string;
+  password: string;
+  iat: number;
+}
+
+declare global {
+  namespace Express {
+    interface Request {
+      currentUser?: CurrentUserPayload;
+    }
+  }
+
+  namespace NodeJS {
+    interface Global {
+      signin: (email?: string, password?: string) => Promise<string[]>;
+    }
+
+    interface ProcessEnv {
+      JWT_KEY: string;
+    }
+  }
+}
+
+export { CurrentUserPayload };

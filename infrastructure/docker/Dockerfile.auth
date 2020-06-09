@@ -4,7 +4,6 @@ WORKDIR /app
 
 COPY package.json .
 COPY packages/auth/package.json ./packages/auth/package.json
-COPY packages/backend-core/package.json ./packages/backend-core/package.json
 COPY packages/backend-core ./packages/backend-core
 
 RUN yarn install --only=prod

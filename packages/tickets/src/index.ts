@@ -1,10 +1,7 @@
 import mongoose from "mongoose";
-import { EnvvarService } from "@ticketing/backend-core";
 import { app } from "./app";
 
 const main = async () => {
-  EnvvarService.validateEnvvars(["JWT_KEY"]);
-
   try {
     await mongoose.connect("mongodb://auth-mongo-srv:27017/auth", {
       useNewUrlParser: true,
@@ -15,7 +12,9 @@ const main = async () => {
     console.error(e);
   }
 
-  app.listen(3000, () => console.log("@ticketing/auth listening on port 3000"));
+  app.listen(3000, () =>
+    console.log("@ticketing/tickets listening on port 3000")
+  );
 };
 
 main();
