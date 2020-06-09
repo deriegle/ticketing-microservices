@@ -1,6 +1,6 @@
 interface CurrentUserPayload {
   id: string;
-  password: string;
+  email: string;
   iat: number;
 }
 

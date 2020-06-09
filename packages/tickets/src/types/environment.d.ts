@@ -1,6 +1,6 @@
 interface CurrentUserPayload {
   id: string;
-  password: string;
+  email: string;
   iat: number;
 }
 
@@ -13,7 +13,7 @@ declare global {
 
   namespace NodeJS {
     interface Global {
-      signin: (email?: string, password?: string) => Promise<string[]>;
+      signin: (email?: string) => string[];
     }
 
     interface ProcessEnv {
