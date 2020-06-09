@@ -1,9 +1,11 @@
 import request from "supertest";
 import { app } from "@ticketing/tickets/src/app";
+import mongoose from "mongoose";
 
 describe("GET /api/tickets/:id", () => {
   it("returns 404 when the ticket does not exist", async () => {
-    await request(app).get("/api/tickets/1").send().expect(404);
+    const id = new mongoose.Types.ObjectId().toHexString();
+    await request(app).get(`/api/tickets/${id}`).send().expect(404);
   });
 
   it("shows you a ticket when it exists", async () => {

@@ -9,20 +9,16 @@ router.get(
   "/api/tickets/:id",
   [param("id").trim().not().isEmpty()],
   validateRequest,
-  async (req: Request, res: Response) => {
-    const { id } = req.params;
+  async (req: Request<{ id: string }>, res: Response) => {
+    const ticket = await Ticket.findById(req.params.id);
 
-    try {
-      const ticket = await Ticket.findOne({
-        _id: id,
-      });
-
-      return res.status(200).send({
-        ticket,
-      });
-    } catch (err) {
+    if (!ticket) {
       throw new NotFoundError();
     }
+
+    return res.send({
+      ticket,
+    });
   }
 );
 

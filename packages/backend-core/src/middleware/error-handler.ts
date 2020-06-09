@@ -20,6 +20,8 @@ export const errorHandler = (
     return res.status(err.statusCode).json(err.serializeErrors());
   }
 
+  console.error(err);
+
   return res.status(400).json({
     errors: [
       {
