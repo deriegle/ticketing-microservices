@@ -7,8 +7,7 @@ import { currentUserRouter } from "@ticketing/auth/src/routes/current-user";
 import { signInRouter } from "@ticketing/auth/src/routes/signin";
 import { signOutRouter } from "@ticketing/auth/src/routes/signout";
 import { signUpRouter } from "@ticketing/auth/src/routes/signup";
-import { errorHandler } from "@ticketing/auth/src/middleware/error-handler";
-import { NotFoundError } from "@ticketing/auth/src/errors/not-found-error";
+import { NotFoundError, errorHandler } from "@ticketing/backend-core";
 
 const app = express();
 
