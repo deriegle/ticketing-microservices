@@ -5,11 +5,13 @@ deploy:
     manifests:
       - ./infrastructure/k8s/*
 build:
-  local:
-    push: false
-    useDockerCLI: true
+  # local:
+  #   push: false
+  #   useDockerCLI: true
+  googleCloudBuild:
+    projectId: ticketing-dev-279703
   artifacts:
-    - image: dereegz/auth
+    - image: us.gcr.io/ticketing-dev-279703/auth
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.auth
@@ -17,7 +19,7 @@ build:
         manual:
           - src: "packages/auth/src/**/*.ts"
             dest: .
-    - image: dereegz/client
+    - image: us.gcr.io/ticketing-dev-279703/client
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.client
@@ -25,7 +27,7 @@ build:
         manual:
           - src: "packages/client/**/*.tsx"
             dest: .
-    - image: dereegz/tickets
+    - image: us.gcr.io/ticketing-dev-279703/tickets
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.tickets
