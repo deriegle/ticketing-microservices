@@ -3,8 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "start": "ts-node-dev --poll ./src/index.ts",
-    "test": "jest --watch --no-cache"
+    "publish": "ts-node-dev --notify false src/publisher.ts",
+    "listen": "ts-node-dev --notify false src/listener.ts"
   },
   "dependencies": {
     "@ticketing/nats-test": "1.0.0",
