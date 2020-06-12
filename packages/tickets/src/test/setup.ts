@@ -30,10 +30,23 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
+declare global {
+  namespace NodeJS {
+    interface Global {
+      signin: (id?: string) => string[];
+    }
+
+    interface ProcessEnv {
+      JWT_KEY: string;
+      MONGO_URI: string;
+    }
+  }
+}
+
 global.signin = (id: string = "1234"): string[] => {
   const userPayload: CurrentUserPayload = {
     iat: new Date().getTime(),
-    id,
+    userId: id,
     email: "test@test.com",
   };
 
