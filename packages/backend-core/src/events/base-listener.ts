@@ -1,5 +1,5 @@
 import { Message, Stan, SubscriptionOptions } from "node-nats-streaming";
-import { Subjects } from "@ticketing/nats-test/src/events/subjects";
+import { Subjects } from "@ticketing/backend-core/src/events/subjects";
 
 interface Event {
   subject: Subjects;

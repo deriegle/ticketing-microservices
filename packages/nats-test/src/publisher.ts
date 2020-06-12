@@ -14,6 +14,7 @@ client.on("connect", async () => {
   await publisher.publish({
     id: "123",
     title: "Dermot Kennedy",
+    userId: "1",
     price: 20,
   });
 

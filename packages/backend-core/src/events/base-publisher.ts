@@ -1,4 +1,4 @@
-import { Subjects } from "@ticketing/nats-test/src/events/subjects";
+import { Subjects } from "@ticketing/backend-core/src/events/subjects";
 import { Stan } from "node-nats-streaming";
 
 interface Event {
