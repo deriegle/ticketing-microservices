@@ -3,6 +3,7 @@ import { validateRequest, requireAuth } from "@ticketing/backend-core";
 import { body } from "express-validator";
 import { Ticket } from "../models/ticket";
 import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = Router();
 
@@ -25,7 +26,7 @@ router.post(
       userId: req.currentUser?.userId!,
     });
 
-    await new TicketCreatedPublisher(client).publish({
+    await new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       price: ticket.price,
       title: ticket.title,
