@@ -1,9 +1,15 @@
-import nats, { Message, Stan, SubscriptionOptions } from "node-nats-streaming";
+import { Message, Stan, SubscriptionOptions } from "node-nats-streaming";
+import { Subjects } from "@ticketing/nats-test/src/events/subjects";
 
-export abstract class Listener {
-  abstract subject: string;
+interface Event {
+  subject: Subjects;
+  data: any;
+}
+
+export abstract class Listener<T extends Event> {
+  abstract subject: T["subject"];
   abstract queueGroupName: string;
-  abstract onMessage(data: object, message: Message): void;
+  abstract onMessage(data: T["data"], message: Message): void;
   protected ackWait = 5 * 1000;
 
   constructor(private readonly client: Stan) {}
