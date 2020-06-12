@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { validateRequest, requireAuth } from "@ticketing/backend-core";
 import { body } from "express-validator";
 import { Ticket } from "../models/ticket";
+import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher";
 
 const router = Router();
 
@@ -22,6 +23,13 @@ router.post(
       price,
       title,
       userId: req.currentUser?.userId!,
+    });
+
+    await new TicketCreatedPublisher(client).publish({
+      id: ticket.id,
+      price: ticket.price,
+      title: ticket.title,
+      userId: ticket.userId,
     });
 
     return res.status(201).send({
