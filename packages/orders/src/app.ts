@@ -7,6 +7,10 @@ import {
   errorHandler,
   currentUser,
 } from "@ticketing/backend-core";
+import { indexOrdersRouter } from "./routes";
+import { deleteOrderRouter } from "./routes/delete";
+import { showOrderRouter } from "./routes/show";
+import { newOrderRouter } from "./routes/new";
 
 const app = express();
 
@@ -20,6 +24,10 @@ app.use(
 );
 
 app.use(currentUser);
+app.use(indexOrdersRouter);
+app.use(deleteOrderRouter);
+app.use(showOrderRouter);
+app.use(newOrderRouter);
 
 app.all("*", async () => {
   throw new NotFoundError();
