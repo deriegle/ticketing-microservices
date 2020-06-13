@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 import { app } from "./app";
 import { EnvvarService } from "@ticketing/backend-core";
-import { natsWrapper } from "@ticketing/tickets/src/nats-wrapper";
+import { natsWrapper } from "@ticketing/orders/src/nats-wrapper";
 
 const main = async () => {
-  EnvvarService.validateEnvvars([
-    "JWT_KEY",
-    "MONGO_URI",
-    "NATS_CLUSTER_ID",
-    "NATS_URL",
-    "NATS_CLIENT_ID",
-  ]);
-
   try {
+    EnvvarService.validateEnvvars([
+      "JWT_KEY",
+      "MONGO_URI",
+      "NATS_CLUSTER_ID",
+      "NATS_URL",
+      "NATS_CLIENT_ID",
+    ]);
+
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID,
       process.env.NATS_CLIENT_ID,
@@ -23,6 +23,7 @@ const main = async () => {
       console.log("NATS connection closed");
       process.exit();
     });
+
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
 
@@ -31,13 +32,13 @@ const main = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-  } catch (e) {
-    console.error(e);
-  }
 
-  app.listen(3000, () =>
-    console.log("@ticketing/tickets listening on port 3000")
-  );
+    app.listen(3000, () =>
+      console.log("@ticketing/orders listening on port 3000")
+    );
+  } catch (e) {
+    console.error(e?.message ?? e);
+  }
 };
 
 main();
