@@ -1,6 +1,7 @@
 import request from "supertest";
 import { app } from "@ticketing/tickets/src/app";
 import { Ticket } from "../../models/ticket";
+import { natsWrapper } from "../../nats-wrapper";
 
 describe("POST /api/tickets", () => {
   it("responds with a 201 when given correct data", async () => {
@@ -93,5 +94,18 @@ describe("POST /api/tickets", () => {
           },
         ],
       });
+  });
+
+  it("publishes an event", async () => {
+    await request(app)
+      .post("/api/tickets")
+      .set("Cookie", global.signin())
+      .send({
+        title: "Dermot Kennedy",
+        price: 23.54,
+      })
+      .expect(201);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 });

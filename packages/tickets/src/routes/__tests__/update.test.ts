@@ -1,7 +1,7 @@
 import request from "supertest";
 import { app } from "@ticketing/tickets/src/app";
-import { Ticket } from "../../models/ticket";
 import mongoose from "mongoose";
+import { natsWrapper } from "../../nats-wrapper";
 
 const mockId = new mongoose.Types.ObjectId().toHexString();
 
@@ -135,5 +135,29 @@ describe("PUT /api/tickets/:id", () => {
           },
         ],
       });
+  });
+
+  it("publishes an event", async () => {
+    const { body } = await request(app)
+      .post("/api/tickets")
+      .set("Cookie", global.signin())
+      .send({
+        title: "Dermot Kennedy",
+        price: 23.54,
+      })
+      .expect(201);
+
+    const ticketId = body.ticket.id;
+
+    await request(app)
+      .put(`/api/tickets/${ticketId}`)
+      .set("Cookie", global.signin())
+      .send({
+        title: "Dermot Kennedy",
+        price: 50.54,
+      })
+      .expect(200);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 });
