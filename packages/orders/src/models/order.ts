@@ -1,43 +1,31 @@
-import { model, Schema, Model, Document } from "mongoose";
+import { Schema, Document } from "mongoose";
+import { OrderStatus, createModel } from "@ticketing/backend-core";
+import { TicketDocument } from "./ticket";
 
 interface OrderAttributes {
-  title: string;
-  price: number;
   userId: string;
+  status: OrderStatus;
+  expiresAt: Date;
+  ticket: TicketDocument;
 }
 
 type OrderDocument = Document & OrderAttributes;
 
-interface OrderModel extends Model<OrderDocument> {
-  build(attrs: OrderAttributes): OrderDocument;
-}
-
-const orderSchema = new Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-    userId: {
-      type: String,
-      required: true,
-    },
+export const Order = createModel<OrderAttributes, OrderDocument>("Order", {
+  userId: {
+    type: String,
+    required: true,
   },
-  {
-    toJSON: {
-      versionKey: false,
-      transform(doc, ret) {
-        ret.id = ret._id;
-        delete ret._id;
-      },
-    },
-  }
-);
-
-orderSchema.statics.build = (attrs: OrderAttributes) => new Order(attrs);
-
-export const Order = model<OrderDocument, OrderModel>("Order", orderSchema);
+  status: {
+    type: String,
+    enum: Object.values(OrderStatus),
+    required: true,
+  },
+  expiresAt: {
+    type: Schema.Types.Date,
+  },
+  ticket: {
+    type: Schema.Types.ObjectId,
+    ref: "Ticket",
+  },
+});
