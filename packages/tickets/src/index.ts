@@ -4,13 +4,19 @@ import { EnvvarService } from "@ticketing/backend-core";
 import { natsWrapper } from "@ticketing/tickets/src/nats-wrapper";
 
 const main = async () => {
-  EnvvarService.validateEnvvars(["JWT_KEY", "MONGO_URI"]);
+  EnvvarService.validateEnvvars([
+    "JWT_KEY",
+    "MONGO_URI",
+    "NATS_CLUSTER_ID",
+    "NATS_URL",
+    "NATS_CLIENT_ID",
+  ]);
 
   try {
     await natsWrapper.connect(
-      "ticketing",
-      "jfdkasjfdas",
-      "https://nats-srv:4222"
+      process.env.NATS_CLUSTER_ID,
+      process.env.NATS_CLIENT_ID,
+      process.env.NATS_URL
     );
 
     natsWrapper.client.on("close", () => {
@@ -35,3 +41,15 @@ const main = async () => {
 };
 
 main();
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      JWT_KEY: string;
+      MONGO_URI: string;
+      NATS_CLUSTER_ID: string;
+      NATS_URL: string;
+      NATS_CLIENT_ID: string;
+    }
+  }
+}
