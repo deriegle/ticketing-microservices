@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import { CurrentUserPayload } from "@ticketing/backend-core/src/types/express";
 import jwt from "jsonwebtoken";
 
+jest.mock("@ticketing/tickets/src/nats-wrapper");
+
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
