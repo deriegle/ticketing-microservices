@@ -33,5 +33,13 @@ build:
         dockerfile: ./infrastructure/docker/Dockerfile.tickets
       sync:
         manual:
-          - src: "packages/tickets/**/*.tsx"
+          - src: "packages/tickets/**/*.ts"
+            dest: .
+    - image: us.gcr.io/ticketing-dev-279703/orders
+      context: .
+      docker:
+        dockerfile: ./infrastructure/docker/Dockerfile.orders
+      sync:
+        manual:
+          - src: "packages/orders/**/*.tsx"
             dest: .

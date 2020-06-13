@@ -1,0 +1,13 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY package.json .
+COPY packages/orders/package.json ./packages/orders/package.json
+COPY packages/backend-core ./packages/backend-core
+
+RUN yarn install --only=prod
+
+COPY packages/orders ./packages/orders
+
+CMD ["yarn", "workspace", "@ticketing/orders", "start"]
