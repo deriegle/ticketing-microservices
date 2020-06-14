@@ -9,6 +9,7 @@ let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
   mongo = new MongoMemoryServer();
+  await mongo.start();
   const mongoUri = await mongo.getUri();
 
   await mongoose.connect(mongoUri, {
@@ -17,7 +18,7 @@ beforeAll(async () => {
   });
 
   process.env.JWT_KEY = "1234";
-});
+}, 10000);
 
 beforeEach(async () => {
   jest.clearAllMocks();
