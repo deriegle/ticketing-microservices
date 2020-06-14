@@ -18,6 +18,8 @@ export abstract class BasePublisher<T extends Event> {
           return reject(err);
         }
 
+        console.log(`Event published ${this.subject}`);
+
         resolve();
       });
     });
