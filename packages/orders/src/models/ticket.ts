@@ -1,4 +1,5 @@
-import { createModel, OrderStatus } from "@ticketing/backend-core";
+import { OrderStatus } from "@ticketing/backend-core";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { Document, Model, Schema, model } from "mongoose";
 import { Order } from "./order";
 
@@ -9,6 +10,7 @@ interface TicketAttributes {
 
 export type TicketDocument = Document &
   TicketAttributes & {
+    version: number;
     isReserved: () => Promise<boolean>;
   };
 
@@ -35,6 +37,9 @@ const ticketSchema = new Schema(
     },
   }
 );
+
+ticketSchema.set("versionKey", "version");
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 ticketSchema.methods.isReserved = async function (): Promise<boolean> {
   const existingOrder = await Order.findOne({
