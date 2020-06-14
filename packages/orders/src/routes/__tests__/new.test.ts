@@ -3,7 +3,8 @@ import request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
 import { Order } from "../../models/order";
-import { OrderStatus } from "@ticketing/backend-core";
+import { OrderStatus, Subjects } from "@ticketing/backend-core";
+import { natsWrapper } from "../../nats-wrapper";
 
 describe("POST /api/orders", () => {
   it("returns an error if the ticket does not exist", async () => {
@@ -63,5 +64,24 @@ describe("POST /api/orders", () => {
     expect(res.body.order.ticket).not.toBeNull();
   });
 
-  it.todo("emits an order created event");
+  it("emits an order created event", async () => {
+    const ticket = await Ticket.create({
+      price: 25.0,
+      title: "Dermot Kennedy",
+    });
+
+    const res = await request(app)
+      .post("/api/orders")
+      .set("Cookie", global.signin())
+      .send({
+        ticketId: ticket.id,
+      })
+      .expect(201);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalledWith(
+      Subjects.OrderCreated,
+      expect.any(String),
+      expect.any(Function)
+    );
+  });
 });
