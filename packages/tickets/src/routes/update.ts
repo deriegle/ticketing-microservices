@@ -26,10 +26,6 @@ router.put(
   async (req: Request<{ id: string }>, res: Response) => {
     const ticket = await Ticket.findById(req.params.id);
 
-    console.log({
-      currentUser: req.currentUser,
-    });
-
     if (ticket?.userId !== req.currentUser?.userId) {
       throw new UnauthorizedError();
     }
@@ -49,6 +45,7 @@ router.put(
       price: ticket.price,
       title: ticket.title,
       userId: ticket.userId,
+      version: ticket.version!,
     });
 
     return res.send({
