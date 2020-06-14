@@ -1,5 +1,4 @@
 import request from "supertest";
-import { Order } from "../../models/order";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
 import { OrderStatus } from "@ticketing/backend-core";
