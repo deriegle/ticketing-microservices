@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import request from "supertest";
 import { app } from "../../app";
+import { Ticket } from "../../models/ticket";
+import { Order } from "../../models/order";
+import { OrderStatus } from "@ticketing/backend-core";
 
 describe("POST /api/orders", () => {
   it("returns an error if the ticket does not exist", async () => {
@@ -15,7 +18,50 @@ describe("POST /api/orders", () => {
       .expect(404);
   });
 
-  it("returns an error if the ticket is already reserved", () => {});
+  it("returns an error if the ticket is already reserved", async () => {
+    const ticket = await Ticket.create({
+      price: 25.0,
+      title: "Dermot Kennedy",
+    });
 
-  it("reserves a ticket", () => {});
+    await Order.create({
+      expiresAt: new Date(),
+      status: OrderStatus.Created,
+      userId: "1234",
+      ticket,
+    });
+
+    const ticketId = ticket.id;
+
+    await request(app)
+      .post("/api/orders")
+      .set("Cookie", global.signin())
+      .send({
+        ticketId,
+      })
+      .expect(400);
+  });
+
+  it("reserves a ticket", async () => {
+    const ticket = await Ticket.create({
+      price: 25.0,
+      title: "Dermot Kennedy",
+    });
+
+    const res = await request(app)
+      .post("/api/orders")
+      .set("Cookie", global.signin())
+      .send({
+        ticketId: ticket.id,
+      })
+      .expect(201);
+
+    expect(res.body.order.id).not.toBeNull();
+    expect(res.body.order.status).toBe(OrderStatus.Created);
+    expect(res.body.order.userId).toBe("1234");
+    expect(res.body.order.expiresAt).not.toBeNull();
+    expect(res.body.order.ticket).not.toBeNull();
+  });
+
+  it.todo("emits an order created event");
 });
