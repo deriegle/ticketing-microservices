@@ -15,7 +15,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
     message: Message
   ): Promise<void> {
     const ticket = await Ticket.findOne({
-      __id: data.id,
+      _id: data.id,
       version: data.version - 1,
     });
 
