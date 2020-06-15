@@ -10,7 +10,7 @@ interface TicketAttributes {
 
 export type TicketDocument = Document &
   TicketAttributes & {
-    version: number;
+    version?: number;
     isReserved: () => Promise<boolean>;
   };
 
