@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import { app } from "./app";
 import { EnvvarService } from "@ticketing/backend-core";
 import { natsWrapper } from "@ticketing/tickets/src/nats-wrapper";
+import { OrderCreatedListener } from "./events/listeners/order-created-listener";
+import { OrderCancelledListener } from "./events/listeners/order-cancelled-listener";
+
+const listeners = [OrderCreatedListener, OrderCancelledListener];
 
 const main = async () => {
   EnvvarService.validateEnvvars([
@@ -18,6 +22,8 @@ const main = async () => {
       process.env.NATS_CLIENT_ID,
       process.env.NATS_URL
     );
+
+    listeners.forEach((listener) => new listener(natsWrapper.client).listen());
 
     natsWrapper.client.on("close", () => {
       console.log("NATS connection closed");

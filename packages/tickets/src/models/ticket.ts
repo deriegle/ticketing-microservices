@@ -5,9 +5,10 @@ interface TicketAttributes {
   title: string;
   price: number;
   userId: string;
+  orderId?: string;
 }
 
-type TicketDocument = Document &
+export type TicketDocument = Document &
   TicketAttributes & {
     version?: number;
   };
@@ -29,6 +30,9 @@ const ticketSchema = new Schema(
     userId: {
       type: String,
       required: true,
+    },
+    orderId: {
+      type: String,
     },
   },
   {
