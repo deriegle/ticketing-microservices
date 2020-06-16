@@ -4,6 +4,7 @@ import {
   requireAuth,
   NotFoundError,
   UnauthorizedError,
+  BadRequestError,
 } from "@ticketing/backend-core";
 import { body, param } from "express-validator";
 import { Ticket } from "../models/ticket";
@@ -26,12 +27,18 @@ router.put(
   async (req: Request<{ id: string }>, res: Response) => {
     const ticket = await Ticket.findById(req.params.id);
 
+    if (!ticket) {
+      throw new NotFoundError();
+    }
+
     if (ticket?.userId !== req.currentUser?.userId) {
       throw new UnauthorizedError();
     }
 
-    if (!ticket) {
-      throw new NotFoundError();
+    if (ticket.orderId) {
+      throw new BadRequestError(
+        "Cannot edit a ticket that is currently reserved."
+      );
     }
 
     ticket.set({

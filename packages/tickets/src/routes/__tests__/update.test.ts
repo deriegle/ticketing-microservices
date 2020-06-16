@@ -2,6 +2,7 @@ import request from "supertest";
 import { app } from "@ticketing/tickets/src/app";
 import mongoose from "mongoose";
 import { natsWrapper } from "../../nats-wrapper";
+import { Ticket } from "../../models/ticket";
 
 const mockId = new mongoose.Types.ObjectId().toHexString();
 
@@ -47,6 +48,43 @@ describe("PUT /api/tickets/:id", () => {
         price: 23.54,
       })
       .expect(401);
+  });
+
+  it("returns a 400 when the ticket is currently reserved", async () => {
+    const { body } = await request(app)
+      .post("/api/tickets")
+      .set("Cookie", global.signin())
+      .send({
+        title: "Dermot Kennedy",
+        price: 23.54,
+      })
+      .expect(201);
+
+    const ticketId = body.ticket.id;
+
+    await Ticket.updateOne(
+      {
+        _id: ticketId,
+      },
+      {
+        orderId: new mongoose.Types.ObjectId().toHexString(),
+      }
+    );
+
+    await request(app)
+      .put(`/api/tickets/${ticketId}`)
+      .set("Cookie", global.signin())
+      .send({
+        title: "Dermot Kennedy",
+        price: 50.54,
+      })
+      .expect(400, {
+        errors: [
+          {
+            message: "Cannot edit a ticket that is currently reserved.",
+          },
+        ],
+      });
   });
 
   it("updates the ticket when user owns the ticket and valid data provided", async () => {
