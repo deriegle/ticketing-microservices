@@ -1,5 +1,5 @@
 import { EnvvarService } from "@ticketing/backend-core";
-import { natsWrapper } from "@ticketing/tickets/src/nats-wrapper";
+import { natsWrapper } from "@ticketing/expiration/src/nats-wrapper";
 
 const main = async () => {
   EnvvarService.validateEnvvars([
