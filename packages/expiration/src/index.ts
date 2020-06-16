@@ -6,6 +6,7 @@ const main = async () => {
     "NATS_CLUSTER_ID",
     "NATS_URL",
     "NATS_CLIENT_ID",
+    "REDIS_HOST",
   ]);
 
   try {
@@ -34,6 +35,7 @@ declare global {
       NATS_CLUSTER_ID: string;
       NATS_URL: string;
       NATS_CLIENT_ID: string;
+      REDIS_HOST: string;
     }
   }
 }

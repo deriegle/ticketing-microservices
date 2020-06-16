@@ -5,13 +5,11 @@ deploy:
     manifests:
       - ./infrastructure/k8s/*
 build:
-  # local:
-  #   push: false
-  #   useDockerCLI: true
-  googleCloudBuild:
-    projectId: ticketing-dev-279703
+  local:
+    push: false
+    useDockerCLI: true
   artifacts:
-    - image: us.gcr.io/ticketing-dev-279703/auth
+    - image: dereegz/auth
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.auth
@@ -19,7 +17,7 @@ build:
         manual:
           - src: "packages/auth/src/**/*.ts"
             dest: .
-    - image: us.gcr.io/ticketing-dev-279703/client
+    - image: dereegz/client
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.client
@@ -27,7 +25,7 @@ build:
         manual:
           - src: "packages/client/**/*.tsx"
             dest: .
-    - image: us.gcr.io/ticketing-dev-279703/tickets
+    - image: dereegz/tickets
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.tickets
@@ -35,19 +33,11 @@ build:
         manual:
           - src: "packages/tickets/**/*.ts"
             dest: .
-    - image: us.gcr.io/ticketing-dev-279703/orders
+    - image: dereegz/orders
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.orders
       sync:
         manual:
           - src: "packages/orders/**/*.ts"
-            dest: .
-    - image: us.gcr.io/ticketing-dev-279703/expiration
-      context: .
-      docker:
-        dockerfile: ./infrastructure/docker/Dockerfile.expiration
-      sync:
-        manual:
-          - src: "packages/expiration/**/*.ts"
             dest: .
