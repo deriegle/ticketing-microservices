@@ -41,5 +41,13 @@ build:
         dockerfile: ./infrastructure/docker/Dockerfile.orders
       sync:
         manual:
-          - src: "packages/orders/**/*.tsx"
+          - src: "packages/orders/**/*.ts"
+            dest: .
+    - image: us.gcr.io/ticketing-dev-279703/expiration
+      context: .
+      docker:
+        dockerfile: ./infrastructure/docker/Dockerfile.expiration
+      sync:
+        manual:
+          - src: "packages/expiration/**/*.ts"
             dest: .

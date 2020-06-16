@@ -1,0 +1,13 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY package.json .
+COPY packages/expiration/package.json ./packages/expiration/package.json
+COPY packages/backend-core ./packages/backend-core
+
+RUN yarn install --only=prod
+
+COPY packages/expiration ./packages/expiration
+
+CMD ["yarn", "workspace", "@ticketing/expiration", "start"]
