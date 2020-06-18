@@ -1,8 +1,5 @@
 import { useState, useCallback } from "react";
-import {
-  ErrorMessage,
-  ErrorResponse,
-} from "@ticketing/auth/src/middleware/error-handler";
+import { ErrorMessage, ErrorResponse } from "@ticketing/backend-core/src/middleware/error-handler";
 
 interface UseRequest<T> {
   url: string;
