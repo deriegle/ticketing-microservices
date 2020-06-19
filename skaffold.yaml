@@ -5,12 +5,14 @@ deploy:
     manifests:
       - ./infrastructure/k8s/*
 build:
-  local:
-    push: false
-    useDockerCLI: true
-    concurrency: 1
+  # local:
+  #   push: false
+  #   useDockerCLI: true
+  googleCloudBuild:
+    projectId: ticking-dev-280819
   artifacts:
-    - image: dereegz/auth
+    #- image: dereegz/auth
+    - image: us.gcr.io/ticking-dev-280819/auth
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.auth
@@ -19,14 +21,15 @@ build:
           - src: "packages/auth/src/**/*.ts"
             dest: "packages/auth/src"
             strip: "packages/auth/src"
-            # - src: "packages/backend-core/src/**/*.ts"
-            #dest: "node_modules/@ticketing/backend-core/src"
-            #strip: "packages/backend-core/src"
-    - image: dereegz/client
+          - src: "packages/backend-core/src/**/*.ts"
+            dest: "node_modules/@ticketing/backend-core/src"
+            strip: "packages/backend-core/src"
+    #- image: dereegz/client
+    - image: us.gcr.io/ticking-dev-280819/client
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.client
-    - image: dereegz/tickets
+    - image: us.gcr.io/ticking-dev-280819/tickets
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.tickets
@@ -35,10 +38,11 @@ build:
           - src: "packages/tickets/src/**/*.ts"
             dest: "packages/tickets/src"
             strip: "packages/tickets/src"
-            #- src: "packages/backend-core/src/**/*.ts"
-            #dest: "node_modules/@ticketing/backend-core/src"
-            #strip: "packages/backend-core/src"
-    - image: dereegz/orders
+          - src: "packages/backend-core/src/**/*.ts"
+            dest: "node_modules/@ticketing/backend-core/src"
+            strip: "packages/backend-core/src"
+    #- image: dereegz/orders
+    - image: us.gcr.io/ticking-dev-280819/orders
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.orders
@@ -47,10 +51,11 @@ build:
           - src: "packages/orders/src/**/*.ts"
             dest: "packages/orders/src"
             strip: "packages/orders/src"
-            #- src: "packages/backend-core/src/**/*.ts"
-            #dest: "node_modules/@ticketing/backend-core/src"
-            #strip: "packages/backend-core/src"
-    - image: dereegz/expiration
+          - src: "packages/backend-core/src/**/*.ts"
+            dest: "node_modules/@ticketing/backend-core/src"
+            strip: "packages/backend-core/src"
+    #- image: dereegz/expiration
+    - image: us.gcr.io/ticking-dev-280819/expiration
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.expiration
@@ -59,10 +64,11 @@ build:
           - src: "packages/expiration/src/**/*.ts"
             dest: "packages/expiration/src"
             strip: "packages/expiration/src"
-            #- src: "packages/backend-core/src/**/*.ts"
-            #dest: "node_modules/@ticketing/backend-core/src"
-            #strip: "packages/backend-core/src"
-    - image: dereegz/payments
+          - src: "packages/backend-core/src/**/*.ts"
+            dest: "node_modules/@ticketing/backend-core/src"
+            strip: "packages/backend-core/src"
+    #- image: dereegz/payments
+    - image: us.gcr.io/ticking-dev-280819/payments
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.payments
@@ -71,6 +77,6 @@ build:
           - src: "packages/payments/src/**/*.ts"
             dest: "packages/payments/src"
             strip: "packages/payments/src"
-            #- src: "packages/backend-core/src/**/*.ts"
-            #dest: "node_modules/@ticketing/backend-core/src"
-            #strip: "packages/backend-core/src"
+          - src: "packages/backend-core/src/**/*.ts"
+            dest: "node_modules/@ticketing/backend-core/src"
+            strip: "packages/backend-core/src"
