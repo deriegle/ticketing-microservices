@@ -26,14 +26,6 @@ build:
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.client
-      sync:
-        manual:
-          - src: "packages/client/src/**/*.ts"
-            dest: "packages/client/src"
-            strip: "packages/client/src"
-          - src: "packages/client/src/**/*.tsx"
-            dest: "packages/client/src"
-            strip: "packages/client/src"
     - image: dereegz/tickets
       context: .
       docker:
