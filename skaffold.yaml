@@ -16,20 +16,23 @@ build:
       sync:
         manual:
           - src: "packages/auth/src/**/*.ts"
-            dest: "app/packages/auth/src"
+            dest: "packages/auth/src"
             strip: "packages/auth/src"
+          - src: "packages/backend-core/src/**/*.ts"
+            dest: "packages/backend-core/src"
+            strip: "packages/backend-core/src"
     - image: dereegz/client
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.client
       sync:
         manual:
-          - src: "packages/client/**/*.tsx"
-            dest: "app/packages/client"
-            strip: "packages/client"
-          - src: "packages/client/**/*.ts"
-            dest: "app/packages/client"
-            strip: "packages/client"
+          - src: "packages/client/src/**/*.ts"
+            dest: "packages/client/src"
+            strip: "packages/client/src"
+          - src: "packages/client/src/**/*.tsx"
+            dest: "packages/client/src"
+            strip: "packages/client/src"
     - image: dereegz/tickets
       context: .
       docker:
@@ -37,8 +40,11 @@ build:
       sync:
         manual:
           - src: "packages/tickets/src/**/*.ts"
-            dest: "app/packages/tickets/src"
+            dest: "packages/tickets/src"
             strip: "packages/tickets/src"
+          - src: "packages/backend-core/src/**/*.ts"
+            dest: "packages/backend-core/src"
+            strip: "packages/backend-core/src"
     - image: dereegz/orders
       context: .
       docker:
@@ -46,8 +52,11 @@ build:
       sync:
         manual:
           - src: "packages/orders/src/**/*.ts"
-            dest: "app/packages/orders/src"
+            dest: "packages/orders/src"
             strip: "packages/orders/src"
+          - src: "packages/backend-core/src/**/*.ts"
+            dest: "packages/backend-core/src"
+            strip: "packages/backend-core/src"
     - image: dereegz/expiration
       context: .
       docker:
@@ -55,5 +64,8 @@ build:
       sync:
         manual:
           - src: "packages/expiration/src/**/*.ts"
-            dest: "app/packages/expiration/src"
+            dest: "packages/expiration/src"
             strip: "packages/expiration/src"
+          - src: "packages/backend-core/src/**/*.ts"
+            dest: "packages/backend-core/src"
+            strip: "packages/backend-core/src"
