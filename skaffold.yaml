@@ -70,3 +70,15 @@ build:
           - src: "packages/backend-core/src/**/*.ts"
             dest: "node_modules/@ticketing/backend-core/src"
             strip: "packages/backend-core/src"
+    - image: dereegz/payments
+      context: .
+      docker:
+        dockerfile: ./infrastructure/docker/Dockerfile.payments
+      sync:
+        manual:
+          - src: "packages/payments/src/**/*.ts"
+            dest: "packages/payments/src"
+            strip: "packages/payments/src"
+          - src: "packages/backend-core/src/**/*.ts"
+            dest: "node_modules/@ticketing/backend-core/src"
+            strip: "packages/backend-core/src"

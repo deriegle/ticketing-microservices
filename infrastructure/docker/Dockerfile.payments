@@ -1,0 +1,13 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY package.json .
+COPY packages/payments/package.json ./packages/payments/package.json
+COPY packages/backend-core ./packages/backend-core
+
+RUN yarn install --only=prod
+
+COPY packages/payments ./packages/payments
+
+CMD ["yarn", "workspace", "@ticketing/payments", "start"]
