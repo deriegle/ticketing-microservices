@@ -1,5 +1,8 @@
 import { EnvvarService } from "@ticketing/backend-core";
 import { natsWrapper } from "@ticketing/expiration/src/nats-wrapper";
+import { OrderCreatedListener } from "./events/listeners/order-created-listener";
+
+const listeners = [OrderCreatedListener];
 
 const main = async () => {
   EnvvarService.validateEnvvars([
@@ -22,6 +25,8 @@ const main = async () => {
     });
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
+
+    listeners.forEach((l) => new l(natsWrapper.client).listen());
   } catch (e) {
     console.error(e);
   }

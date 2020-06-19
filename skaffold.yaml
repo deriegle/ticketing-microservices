@@ -41,3 +41,11 @@ build:
         manual:
           - src: "packages/orders/**/*.ts"
             dest: .
+    - image: dereegz/expiration
+      context: .
+      docker:
+        dockerfile: ./infrastructure/docker/Dockerfile.expiration
+      sync:
+        manual:
+          - src: "packages/expiration/**/*.ts"
+            dest: .

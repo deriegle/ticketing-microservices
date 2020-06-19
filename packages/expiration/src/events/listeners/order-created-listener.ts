@@ -1,16 +1,19 @@
-import {
-  Listener,
-  OrderCreatedEvent,
-  Subjects,
-  OrderStatus,
-} from "@ticketing/backend-core";
+import { Listener, OrderCreatedEvent, Subjects } from "@ticketing/backend-core";
 import { Message } from "node-nats-streaming";
+import { expirationQueue } from "../../queues/expiration-queue";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   readonly subject = Subjects.OrderCreated;
   queueGroupName: string = "expiration-service";
 
-  onMessage(data: OrderCreatedEvent["data"], message: Message): void {
-    throw new Error("Method not implemented.");
+  async onMessage(
+    data: OrderCreatedEvent["data"],
+    message: Message
+  ): Promise<void> {
+    await expirationQueue.add({
+      orderId: data.id,
+    });
+
+    message.ack();
   }
 }
