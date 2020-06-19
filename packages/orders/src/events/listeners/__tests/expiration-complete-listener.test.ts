@@ -72,4 +72,25 @@ describe("ExpirationCompleteListener", () => {
 
     expect(message.ack).toHaveBeenCalled();
   });
+
+  it("acks the message but doesn't update the order status when it's already complete", async () => {
+    const { listener, data, message } = await setup();
+
+    await Order.updateOne(
+      {
+        _id: data.orderId,
+      },
+      {
+        status: OrderStatus.Complete,
+      }
+    );
+
+    await listener.onMessage(data, message);
+
+    const order = await Order.findById(data.orderId);
+
+    expect(order).toBeDefined();
+    expect(order!.status).toBe(OrderStatus.Complete);
+    expect(message.ack).toHaveBeenCalled();
+  });
 });

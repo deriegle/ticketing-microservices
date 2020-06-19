@@ -24,6 +24,10 @@ export class ExpirationCompleteListener extends Listener<
       throw new Error(`Order ${data.orderId} not found`);
     }
 
+    if (order.status === OrderStatus.Complete) {
+      return message.ack();
+    }
+
     order.set({
       status: OrderStatus.Cancelled,
     });
