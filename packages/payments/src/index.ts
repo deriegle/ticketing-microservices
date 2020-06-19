@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import { app } from "./app";
 import { EnvvarService } from "@ticketing/backend-core";
 import { natsWrapper } from "@ticketing/payments/src/nats-wrapper";
+import { OrderCreatedListener } from "./events/listeners/order-created-listener";
+import { OrderCancelledListener } from "./events/listeners/order-cancelled-listener";
+
+const listeners = [OrderCreatedListener, OrderCancelledListener];
 
 const main = async () => {
   EnvvarService.validateEnvvars([
@@ -25,6 +29,8 @@ const main = async () => {
     });
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
+
+    listeners.forEach((l) => new l(natsWrapper.client).listen());
 
     await mongoose.connect(process.env.MONGO_URI!, {
       useNewUrlParser: true,
