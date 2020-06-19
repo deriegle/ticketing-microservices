@@ -4,8 +4,13 @@ import { EnvvarService } from "@ticketing/backend-core";
 import { natsWrapper } from "@ticketing/orders/src/nats-wrapper";
 import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
 import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
+import { ExpirationCompleteListener } from "./events/listeners/expiration-complete-listener";
 
-const listeners = [TicketCreatedListener, TicketUpdatedListener];
+const listeners = [
+  TicketCreatedListener,
+  TicketUpdatedListener,
+  ExpirationCompleteListener,
+];
 
 const main = async () => {
   try {
