@@ -6,13 +6,13 @@
     "dev": "next"
   },
   "dependencies": {
-    "@types/react": "^16.9.35",
     "bootstrap": "^4.5.0",
     "next": "^9.4.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "@types/react": "^16.9.35",
     "@types/node": "^14.0.11",
     "typescript": "^3.9.5"
   }

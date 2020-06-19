@@ -16,7 +16,8 @@ build:
       sync:
         manual:
           - src: "packages/auth/src/**/*.ts"
-            dest: .
+            dest: "app/packages/auth/src"
+            strip: "packages/auth/src"
     - image: dereegz/client
       context: .
       docker:
@@ -24,28 +25,35 @@ build:
       sync:
         manual:
           - src: "packages/client/**/*.tsx"
-            dest: .
+            dest: "app/packages/client"
+            strip: "packages/client"
+          - src: "packages/client/**/*.ts"
+            dest: "app/packages/client"
+            strip: "packages/client"
     - image: dereegz/tickets
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.tickets
       sync:
         manual:
-          - src: "packages/tickets/**/*.ts"
-            dest: .
+          - src: "packages/tickets/src/**/*.ts"
+            dest: "app/packages/tickets/src"
+            strip: "packages/tickets/src"
     - image: dereegz/orders
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.orders
       sync:
         manual:
-          - src: "packages/orders/**/*.ts"
-            dest: .
+          - src: "packages/orders/src/**/*.ts"
+            dest: "app/packages/orders/src"
+            strip: "packages/orders/src"
     - image: dereegz/expiration
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.expiration
       sync:
         manual:
-          - src: "packages/expiration/**/*.ts"
-            dest: .
+          - src: "packages/expiration/src/**/*.ts"
+            dest: "app/packages/expiration/src"
+            strip: "packages/expiration/src"

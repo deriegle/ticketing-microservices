@@ -16,14 +16,14 @@
   "dependencies": {
     "@ticketing/backend-core": "1.0.0",
     "@ticketing/expiration": "1.0.0",
-    "@types/bull": "^3.14.0",
-    "@types/node": "^14.0.11",
     "bull": "^3.14.0",
     "node-nats-streaming": "^0.3.2",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.9.5"
   },
   "devDependencies": {
+    "@types/bull": "^3.14.0",
+    "@types/node": "^14.0.11",
     "@types/jest": "^25.2.3",
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0"

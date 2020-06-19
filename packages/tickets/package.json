@@ -16,11 +16,6 @@
   "dependencies": {
     "@ticketing/backend-core": "1.0.0",
     "@ticketing/tickets": "1.0.0",
-    "@types/cookie-session": "^2.0.40",
-    "@types/express": "^4.17.6",
-    "@types/jsonwebtoken": "^8.5.0",
-    "@types/mongoose": "^5.7.22",
-    "@types/node": "^14.0.11",
     "cookie-session": "^1.4.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
@@ -38,6 +33,11 @@
     "jest": "^26.0.1",
     "mongodb-memory-server": "^6.6.1",
     "supertest": "^4.0.2",
-    "ts-jest": "^26.1.0"
+    "ts-jest": "^26.1.0",
+    "@types/cookie-session": "^2.0.40",
+    "@types/express": "^4.17.6",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongoose": "^5.7.22",
+    "@types/node": "^14.0.11"
   }
 }
