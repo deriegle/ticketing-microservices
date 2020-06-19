@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { stripe } from "@ticketing/payments/src/stripe";
 import {
   requireAuth,
   validateRequest,
@@ -9,6 +10,7 @@ import {
 } from "@ticketing/backend-core";
 import { body } from "express-validator";
 import { Order } from "../models/order";
+import { Payment } from "../models/payment";
 
 const router = Router();
 
@@ -40,7 +42,21 @@ router.post(
       throw new BadRequestError("Order has been cancelled");
     }
 
-    res.send({ success: true });
+    const charge = await stripe.charges.create({
+      currency: "usd",
+      amount: order.price * 100,
+      source: token,
+    });
+
+    const payment = await Payment.create({
+      orderId: order.id,
+      stripeChargeId: charge.id,
+    });
+
+    res.status(204).send({
+      success: true,
+      paymentId: payment.id,
+    });
   }
 );
 

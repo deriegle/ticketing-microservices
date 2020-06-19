@@ -14,6 +14,7 @@ const main = async () => {
     "NATS_CLUSTER_ID",
     "NATS_URL",
     "NATS_CLIENT_ID",
+    "STRIPE_KEY"
   ]);
 
   try {
@@ -56,6 +57,7 @@ declare global {
       NATS_CLUSTER_ID: string;
       NATS_URL: string;
       NATS_CLIENT_ID: string;
+      STRIPE_KEY: string;
     }
   }
 }

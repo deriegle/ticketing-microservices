@@ -4,6 +4,7 @@ import { CurrentUserPayload } from "@ticketing/backend-core/src/types/express";
 import jwt from "jsonwebtoken";
 
 jest.mock("@ticketing/payments/src/nats-wrapper");
+jest.mock("@ticketing/payments/src/stripe");
 
 let mongo: MongoMemoryServer;
 
