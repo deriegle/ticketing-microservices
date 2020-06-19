@@ -14,8 +14,6 @@ export * from "./middleware/validate-request";
 // Services
 export * from "./services/envvar-service";
 
-export * from "./create-model";
-
 // Events
 export * from "./events/base-listener";
 export * from "./events/base-publisher";
