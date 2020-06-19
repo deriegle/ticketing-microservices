@@ -8,6 +8,7 @@ build:
   local:
     push: false
     useDockerCLI: true
+    concurrency: 1
   artifacts:
     - image: dereegz/auth
       context: .
@@ -19,7 +20,7 @@ build:
             dest: "packages/auth/src"
             strip: "packages/auth/src"
           - src: "packages/backend-core/src/**/*.ts"
-            dest: "packages/backend-core/src"
+            dest: "node_modules/@ticketing/backend-core/src"
             strip: "packages/backend-core/src"
     - image: dereegz/client
       context: .
@@ -43,7 +44,7 @@ build:
             dest: "packages/tickets/src"
             strip: "packages/tickets/src"
           - src: "packages/backend-core/src/**/*.ts"
-            dest: "packages/backend-core/src"
+            dest: "node_modules/@ticketing/backend-core/src"
             strip: "packages/backend-core/src"
     - image: dereegz/orders
       context: .
@@ -55,7 +56,7 @@ build:
             dest: "packages/orders/src"
             strip: "packages/orders/src"
           - src: "packages/backend-core/src/**/*.ts"
-            dest: "packages/backend-core/src"
+            dest: "node_modules/@ticketing/backend-core/src"
             strip: "packages/backend-core/src"
     - image: dereegz/expiration
       context: .
@@ -67,5 +68,5 @@ build:
             dest: "packages/expiration/src"
             strip: "packages/expiration/src"
           - src: "packages/backend-core/src/**/*.ts"
-            dest: "packages/backend-core/src"
+            dest: "node_modules/@ticketing/backend-core/src"
             strip: "packages/backend-core/src"
