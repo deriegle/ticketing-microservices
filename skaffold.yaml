@@ -19,9 +19,9 @@ build:
           - src: "packages/auth/src/**/*.ts"
             dest: "packages/auth/src"
             strip: "packages/auth/src"
-          - src: "packages/backend-core/src/**/*.ts"
-            dest: "node_modules/@ticketing/backend-core/src"
-            strip: "packages/backend-core/src"
+            # - src: "packages/backend-core/src/**/*.ts"
+            #dest: "node_modules/@ticketing/backend-core/src"
+            #strip: "packages/backend-core/src"
     - image: dereegz/client
       context: .
       docker:
@@ -35,9 +35,9 @@ build:
           - src: "packages/tickets/src/**/*.ts"
             dest: "packages/tickets/src"
             strip: "packages/tickets/src"
-          - src: "packages/backend-core/src/**/*.ts"
-            dest: "node_modules/@ticketing/backend-core/src"
-            strip: "packages/backend-core/src"
+            #- src: "packages/backend-core/src/**/*.ts"
+            #dest: "node_modules/@ticketing/backend-core/src"
+            #strip: "packages/backend-core/src"
     - image: dereegz/orders
       context: .
       docker:
@@ -47,9 +47,9 @@ build:
           - src: "packages/orders/src/**/*.ts"
             dest: "packages/orders/src"
             strip: "packages/orders/src"
-          - src: "packages/backend-core/src/**/*.ts"
-            dest: "node_modules/@ticketing/backend-core/src"
-            strip: "packages/backend-core/src"
+            #- src: "packages/backend-core/src/**/*.ts"
+            #dest: "node_modules/@ticketing/backend-core/src"
+            #strip: "packages/backend-core/src"
     - image: dereegz/expiration
       context: .
       docker:
@@ -59,9 +59,9 @@ build:
           - src: "packages/expiration/src/**/*.ts"
             dest: "packages/expiration/src"
             strip: "packages/expiration/src"
-          - src: "packages/backend-core/src/**/*.ts"
-            dest: "node_modules/@ticketing/backend-core/src"
-            strip: "packages/backend-core/src"
+            #- src: "packages/backend-core/src/**/*.ts"
+            #dest: "node_modules/@ticketing/backend-core/src"
+            #strip: "packages/backend-core/src"
     - image: dereegz/payments
       context: .
       docker:
@@ -71,6 +71,6 @@ build:
           - src: "packages/payments/src/**/*.ts"
             dest: "packages/payments/src"
             strip: "packages/payments/src"
-          - src: "packages/backend-core/src/**/*.ts"
-            dest: "node_modules/@ticketing/backend-core/src"
-            strip: "packages/backend-core/src"
+            #- src: "packages/backend-core/src/**/*.ts"
+            #dest: "node_modules/@ticketing/backend-core/src"
+            #strip: "packages/backend-core/src"

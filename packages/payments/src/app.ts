@@ -8,6 +8,7 @@ import {
   errorHandler,
   currentUser,
 } from "@ticketing/backend-core";
+import { newChargeRouter } from "./routes/new";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(
 );
 
 app.use(currentUser);
+app.use(newChargeRouter);
 
 app.all("*", async () => {
   throw new NotFoundError();
