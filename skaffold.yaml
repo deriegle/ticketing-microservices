@@ -29,6 +29,14 @@ build:
       context: .
       docker:
         dockerfile: ./infrastructure/docker/Dockerfile.client
+      sync:
+        manual:
+          - src: "packages/client/**/*.tsx"
+            dest: "packages/client"
+            strip: "packages/client"
+          - src: "packages/client/**/*.ts"
+            dest: "packages/client"
+            strip: "packages/client"
     - image: us.gcr.io/ticking-dev-280819/tickets
       context: .
       docker:

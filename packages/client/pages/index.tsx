@@ -1,11 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-
-interface CurrentUserData {
-  userId: string;
-  email: string;
-  iat: number;
-}
+import { CurrentUserData } from "./_app";
 
 interface Props {
   currentUser?: CurrentUserData;
