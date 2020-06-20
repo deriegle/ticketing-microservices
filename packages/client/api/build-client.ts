@@ -11,7 +11,7 @@ export default ({ req }: NextPageContext) => {
             headers: {
               Host: req?.headers?.host,
               Cookie: req?.headers?.cookie,
-            },
+            } as any,
           }
         );
 
@@ -25,7 +25,7 @@ export default ({ req }: NextPageContext) => {
             headers: {
               Host: req?.headers?.host,
               Cookie: req?.headers?.cookie,
-            },
+            } as any,
             body: body ? JSON.stringify(body) : null,
           }
         );
@@ -41,7 +41,7 @@ export default ({ req }: NextPageContext) => {
           headers: {
             Host: req?.headers?.host,
             Cookie: req?.headers?.cookie,
-          },
+          } as any,
         });
 
         return res.json();
@@ -52,7 +52,7 @@ export default ({ req }: NextPageContext) => {
           headers: {
             Host: req?.headers?.host,
             Cookie: req?.headers?.cookie,
-          },
+          } as any,
           body: body ? JSON.stringify(body) : null,
         });
 

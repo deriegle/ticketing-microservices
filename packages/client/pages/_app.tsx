@@ -25,13 +25,14 @@ const AppComponent = ({ Component, pageProps, currentUser }: Props) => {
 AppComponent.getInitialProps = async (
   appContext: AppContext
 ): Promise<{ currentUser?: CurrentUserData; pageProps: any }> => {
+  const client = buildClient(appContext.ctx);
   const data: {
     currentUser: {
       userId: string;
       email: string;
       iat: number;
     };
-  } = await buildClient(appContext.ctx).get("/api/users/currentuser");
+  } = await client.get("/api/users/currentuser");
   let pageProps: any = {};
 
   if (appContext.Component.getInitialProps) {
