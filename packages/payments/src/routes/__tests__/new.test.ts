@@ -2,9 +2,10 @@ import request from "supertest";
 import { app } from "@ticketing/payments/src/app";
 import mongoose from "mongoose";
 import { Order } from "@ticketing/payments/src/models/order";
-import { OrderStatus } from "@ticketing/backend-core";
+import { OrderStatus, Subjects } from "@ticketing/backend-core";
 import { stripe } from "../../stripe";
 import { Payment } from "../../models/payment";
+import { natsWrapper } from "../../nats-wrapper";
 
 describe("POST /api/payments", () => {
   it("returns 404 when the order id is fake", async () => {
@@ -99,5 +100,38 @@ describe("POST /api/payments", () => {
     expect(payment).not.toBeNull();
     expect(payment!.orderId).toBe(order.id);
     expect(payment!.stripeChargeId).toBe("fake_stripe_id");
+  });
+
+  it("publishes a payment created event", async () => {
+    const userId = "555";
+    const order = await Order.create({
+      price: 50,
+      status: OrderStatus.Created,
+      userId,
+      version: 0,
+    });
+
+    await request(app)
+      .post("/api/payments")
+      .set("Cookie", global.signin(userId))
+      .send({ orderId: order.id, token: "tok_visa" })
+      .expect(204);
+
+    const payment = await Payment.findOne({
+      orderId: order.id,
+    });
+
+    expect(payment).not.toBeNull();
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+
+    const [subject, dataString] = (natsWrapper.client
+      .publish as jest.Mock).mock.calls[0];
+
+    expect(subject).toBe(Subjects.PaymentCreated);
+    expect(JSON.parse(dataString)).toEqual({
+      id: payment!.id,
+      orderId: order.id,
+      stripeChargeId: "fake_stripe_id",
+    });
   });
 });

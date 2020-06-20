@@ -5,11 +5,13 @@ import { natsWrapper } from "@ticketing/orders/src/nats-wrapper";
 import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
 import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
 import { ExpirationCompleteListener } from "./events/listeners/expiration-complete-listener";
+import { PaymentCreatedListener } from "./events/listeners/payment-created-listener";
 
 const listeners = [
   TicketCreatedListener,
   TicketUpdatedListener,
   ExpirationCompleteListener,
+  PaymentCreatedListener,
 ];
 
 const main = async () => {

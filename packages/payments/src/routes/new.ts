@@ -11,6 +11,8 @@ import {
 import { body } from "express-validator";
 import { Order } from "../models/order";
 import { Payment } from "../models/payment";
+import { PaymentCreatedPublisher } from "../events/publishers/payment-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = Router();
 
@@ -53,9 +55,15 @@ router.post(
       stripeChargeId: charge.id,
     });
 
+    await new PaymentCreatedPublisher(natsWrapper.client).publish({
+      id: payment.id,
+      orderId: order.id,
+      stripeChargeId: payment.stripeChargeId,
+    });
+
     res.status(204).send({
       success: true,
-      paymentId: payment.id,
+      id: payment.id,
     });
   }
 );
