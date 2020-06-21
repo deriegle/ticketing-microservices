@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node-dev --poll ./src/index.ts",
-    "test": "jest --watch --no-cache"
+    "test": "jest",
+    "test:watch": "jest --watch --no-cache"
   },
   "jest": {
     "preset": "ts-jest",
