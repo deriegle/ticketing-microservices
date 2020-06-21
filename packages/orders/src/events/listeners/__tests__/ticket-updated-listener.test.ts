@@ -1,6 +1,6 @@
 import { TicketUpdatedListener } from "../ticket-updated-listener";
 import { Message } from "node-nats-streaming";
-import { natsWrapper } from "../../../nats-wrapper";
+import { natsWrapper } from "@ticketing/orders/src/nats-wrapper";
 import { TicketUpdatedEvent } from "@ticketing/backend-core";
 import { Ticket } from "@ticketing/orders/src/models/ticket";
 
@@ -58,9 +58,14 @@ describe("TicketUpdatedListener", () => {
     const { listener, data, message } = await setup();
 
     data.version = 10;
-    expect(listener.onMessage(data, message)).rejects.toMatch(
-      /Ticket not found/i
-    );
-    expect(message.ack).not.toHaveBeenCalled();
+
+    try {
+      await listener.onMessage(data, message);
+    } catch (e) {
+      expect(e.message).toMatch(/Ticket not found/i);
+      expect(message.ack).not.toHaveBeenCalled();
+    } finally {
+      expect.assertions(2);
+    }
   });
 });
