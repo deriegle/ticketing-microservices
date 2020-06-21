@@ -21,6 +21,6 @@ describe("GET /api/users/currentuser", () => {
   });
 
   it("returns a current user of null when not authenticated", async () => {
-    await request(app).get("/api/users/currentuser").send().expect(400, {});
+    await request(app).get("/api/users/currentuser").send().expect(200, {});
   });
 });

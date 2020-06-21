@@ -3,6 +3,7 @@ import { EnvvarService } from "@ticketing/backend-core";
 import { app } from "./app";
 
 const main = async () => {
+  console.log("Starting up....");
   EnvvarService.validateEnvvars(["JWT_KEY", "MONGO_URI"]);
 
   try {

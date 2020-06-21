@@ -1,7 +1,7 @@
 import { TicketCreatedListener } from "../ticket-created-listener";
 import mongoose from "mongoose";
 import { Message } from "node-nats-streaming";
-import { natsWrapper } from "../../../nats-wrapper";
+import { natsWrapper } from "@ticketing/orders/src/nats-wrapper";
 import { TicketCreatedEvent } from "@ticketing/backend-core";
 import { Ticket } from "../../../models/ticket";
 
